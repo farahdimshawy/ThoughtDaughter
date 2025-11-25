@@ -14,7 +14,7 @@ from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 
 load_dotenv()
 
-st.title("₊✩‧₊THOughT Daughter₊✩‧₊")
+st.title("₊✩‧₊Thought Daughter₊✩‧₊")
 
 # --- INITIALIZATION ---
 

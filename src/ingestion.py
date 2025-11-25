@@ -21,9 +21,20 @@ load_dotenv()
 # Pinecone setup
 # -------------------------------
 pc = Pinecone(api_key=os.environ["PINECONE_API_KEY"])
-
-index_name = "wikipedia-google-index"
+index_name = os.environ.get("PINECONE_INDEX_NAME") 
 existing_indexes = [idx["name"] for idx in pc.list_indexes()]
+existing_indexes = pc.list_indexes().names
+
+if existing_indexes:
+    print(f"Found existing indexes: {existing_indexes}")
+    
+    # 2. Iterate through the list and delete each one 
+    for index_name in existing_indexes:
+        print(f"Deleting index: {index_name}...")
+        pc.delete_index(name=index_name)
+        print(f"Index {index_name} deleted.")
+else:
+    print("No existing indexes found. Ready to create new ones.")
 
 if index_name not in existing_indexes:
     print(f"Creating new index: {index_name}")
@@ -88,16 +99,16 @@ if __name__ == "__main__":
                     )
                 )
 
-    # 3. Chunk documents
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800, 
-        chunk_overlap=400, 
-        length_function=len
-    )
-    documents = text_splitter.split_documents(raw_documents)
-    
-    # 4. Generate unique IDs and Add to Pinecone
-    uuids = [str(uuid.uuid4()) for _ in range(len(documents))]
-    vector_store.add_documents(documents=documents, ids=uuids)
-    
-    print(f"\nIngestion Complete! Added {len(documents)} total chunks to Pinecone.")
+        # 3. Chunk documents
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=800, 
+            chunk_overlap=400, 
+            length_function=len
+        )
+        documents = text_splitter.split_documents(raw_documents)
+        
+        # 4. Generate unique IDs and Add to Pinecone
+        uuids = [str(uuid.uuid4()) for _ in range(len(documents))]
+        vector_store.add_documents(documents=documents, ids=uuids)
+        
+        print(f"\nIngestion Complete! Added {len(documents)} total chunks to Pinecone.")
