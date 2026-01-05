@@ -1,4 +1,5 @@
 # <h1>  Thought Daughter </h1>
+Deployed App: [Thought Daughter](https://resume1evaluator.streamlit.app/)
 <h2>Retrieval Augmented Generation (RAG) with Streamlit, LangChain and Pinecone</h2>
 Hybrid RAG Chatbot: A Streamlit Q&amp;A app using Gemini, Pinecone, Wikipedia, and Tavily for real-time, hybrid retrieval. Combines internal document search with up-to-the-minute web search. Features transparent sourcing and an interactive chat interface.
 
